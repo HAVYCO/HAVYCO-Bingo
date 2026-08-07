@@ -28,3 +28,10 @@ FUNCIONES V3
 IMPORTANTE
 La versión V3 no incluye nube, usuarios con contraseña ni sincronización entre dispositivos.
 Esas funciones requieren un backend (por ejemplo Firebase/Supabase) y se pueden añadir después.
+
+ACTUALIZACIÓN V3.1
+- Botón superior grande: INSTALAR HAVYCO APP.
+- Tarjeta de instalación adicional en Configuración.
+- El botón aparece automáticamente cuando Chrome habilita la instalación PWA.
+- Al instalarse, los botones de instalación se ocultan.
+- Caché PWA actualizado a v3.1.

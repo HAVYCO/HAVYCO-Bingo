@@ -76,8 +76,30 @@ function spinPrize(){
 }
 function saveSettings(){store.settings={primary:$('#primaryColor').value,accent:$('#accentColor').value,called:$('#calledColor').value};localStorage.setItem('havyco_settings',JSON.stringify(store.settings));applySettings();alert('Configuración guardada.')}
 function applySettings(){if(store.settings.primary)document.documentElement.style.setProperty('--primary',store.settings.primary);if(store.settings.accent)document.documentElement.style.setProperty('--accent',store.settings.accent);if(store.settings.called)document.documentElement.style.setProperty('--called',store.settings.called)}
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();store.installPrompt=e;$('#installBtn').classList.remove('hidden')});
-$('#installBtn').onclick=async()=>{if(store.installPrompt){store.installPrompt.prompt();await store.installPrompt.userChoice;store.installPrompt=null;$('#installBtn').classList.add('hidden')}};
+async function launchInstall(){
+  if(!store.installPrompt){
+    alert('Chrome todavía no habilita la instalación. Recarga la página o abre la app desde Chrome y vuelve a intentarlo.');
+    return;
+  }
+  store.installPrompt.prompt();
+  await store.installPrompt.userChoice;
+  store.installPrompt=null;
+  $('#installBtn').classList.add('hidden');
+  $('#installCard')?.classList.add('hidden');
+}
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  store.installPrompt=e;
+  $('#installBtn').classList.remove('hidden');
+  $('#installCard')?.classList.remove('hidden');
+});
+window.addEventListener('appinstalled',()=>{
+  $('#installBtn').classList.add('hidden');
+  $('#installCard')?.classList.add('hidden');
+  store.installPrompt=null;
+});
+$('#installBtn').onclick=launchInstall;
+$('#installBtnSecondary').onclick=launchInstall;
 $('#drawBtn').onclick=drawNumber;$('#resetBtn').onclick=resetGame;$('#generateCardsBtn').onclick=generateCards;$('#printCardsBtn').onclick=()=>{showView('cartones');setTimeout(()=>window.print(),100)};$('#clearCardsBtn').onclick=()=>$('#cardsPreview').innerHTML='';
 $('#saveSaleBtn').onclick=saveSale;$('#addPrizeBtn').onclick=addPrize;$('#spinPrizeBtn').onclick=spinPrize;$('#clearHistoryBtn').onclick=()=>{if(confirm('¿Borrar historial?')){store.drawn=[];remaining=Array.from({length:75},(_,i)=>i+1);localStorage.setItem('havyco_drawn','[]');render()}};
 $('#saveSettingsBtn').onclick=saveSettings;$('#fullscreenBtn').onclick=()=>document.documentElement.requestFullscreen?.();

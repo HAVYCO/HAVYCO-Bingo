@@ -34,3 +34,33 @@ footer{text-align:center;padding:12px;border-top:1px solid #20306d;color:#c7eaff
 @media(max-width:1300px){.dashboard{grid-template-columns:230px 300px 1fr}.right{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr)}}
 @media(max-width:900px){.topbar{flex-direction:column;align-items:stretch}.brand{min-width:0}nav{flex-wrap:wrap}.dashboard{grid-template-columns:1fr}.right{display:flex}.form-grid,.cards-preview,.split{grid-template-columns:1fr}}
 @media print{.topbar,footer,.form-panel,.main-actions,.side,.center{display:none!important}.view{display:none!important}#cartones.view.active{display:block!important}.cards-preview{grid-template-columns:repeat(2,1fr);gap:8mm}.bingo-card{page-break-inside:avoid}}
+
+.install{
+  border:0;
+  border-radius:12px;
+  padding:13px 16px;
+  background:linear-gradient(180deg,#32d15d,#0d8f31);
+  color:#fff;
+  font-weight:900;
+  letter-spacing:.2px;
+  box-shadow:0 0 18px #27cf5f66,inset 0 0 12px #ffffff22;
+}
+.install:hover{filter:brightness(1.08)}
+.install-card{
+  margin-top:18px;
+  padding:16px;
+  border:1px solid #27c75d;
+  border-radius:14px;
+  background:linear-gradient(180deg,#0c2c2a,#07162a);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.install-card h3{margin:0 0 6px;color:#79ff9d}
+.install-card p{margin:0;color:#d6e8dc}
+.big-install{min-width:240px;font-size:16px;padding:15px 18px}
+@media(max-width:700px){
+  .install-card{flex-direction:column;align-items:stretch}
+  .big-install{width:100%;min-width:0}
+}
