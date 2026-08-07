@@ -35,3 +35,17 @@ ACTUALIZACIÓN V3.1
 - El botón aparece automáticamente cuando Chrome habilita la instalación PWA.
 - Al instalarse, los botones de instalación se ocultan.
 - Caché PWA actualizado a v3.1.
+
+
+ACTUALIZACIÓN V3.2 - iPHONE / iPAD
+- Detecta iPhone y iPad.
+- En iOS el botón "INSTALAR HAVYCO APP" permanece visible.
+- Al pulsarlo muestra instrucciones específicas para instalar desde Safari.
+- Añadido apple-touch-icon.
+- Añadida configuración de Apple Web App.
+- En Android y escritorio se conserva el prompt nativo cuando está disponible.
+
+IMPORTANTE:
+iOS no admite el evento beforeinstallprompt, por lo que ninguna web puede abrir
+programáticamente el cuadro de instalación nativo en iPhone. La instalación se
+realiza desde Compartir > Agregar a Inicio.

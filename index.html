@@ -6,6 +6,10 @@
   <meta name="theme-color" content="#07123d">
   <title>HAVYCO Bingo Profesional V3</title>
   <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/logo-havyco.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HAVYCO Bingo">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -224,6 +228,25 @@
   </main>
 
   <footer>HAVYCO • Calidad, Confianza y Diversión en Cada Sorteo</footer>
+</div>
+
+<div id="iosInstallModal" class="ios-modal hidden" role="dialog" aria-modal="true" aria-labelledby="iosInstallTitle">
+  <div class="ios-modal-card">
+    <button id="closeIosInstall" class="ios-close" aria-label="Cerrar">×</button>
+    <img src="assets/logo-havyco.png" alt="HAVYCO Bingo">
+    <h2 id="iosInstallTitle">Instalar HAVYCO en iPhone</h2>
+    <p>En iPhone la instalación no se puede abrir automáticamente desde este botón.</p>
+    <ol>
+      <li>Abre esta página en <strong>Safari</strong>.</li>
+      <li>Toca <strong>Compartir</strong> <span class="share-icon">⬆</span>.</li>
+      <li>Selecciona <strong>Agregar a Inicio</strong>.</li>
+      <li>Activa <strong>Abrir como app web</strong>.</li>
+      <li>Toca <strong>Agregar</strong>.</li>
+    </ol>
+    <p class="ios-tip">Después aparecerá el icono HAVYCO en tu pantalla de inicio y abrirá como una app.</p>
+    <button id="copyIosUrl" class="install big-install">MOSTRAR ENLACE PARA SAFARI</button>
+    <div id="iosUrlBox" class="ios-url hidden"></div>
+  </div>
 </div>
 
 <script src="app.js"></script>
