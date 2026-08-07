@@ -1,0 +1,15 @@
+{
+  "name": "HAVYCO Bingo Profesional",
+  "short_name": "HAVYCO Bingo",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#050923",
+  "theme_color": "#07123d",
+  "icons": [
+    {
+      "src": "assets/logo-havyco.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}
