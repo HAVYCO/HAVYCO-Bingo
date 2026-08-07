@@ -1,41 +1,30 @@
-HAVYCO BINGO PROFESIONAL - APP WEB
+HAVYCO BINGO PROFESIONAL V3
 
-1. Abre Terminal.
-2. Entra a esta carpeta:
-   cd ~/Desktop/HAVYCO_Bingo_Web
-3. Inicia un servidor local:
-   python3 -m http.server 8000
-4. Abre Chrome y entra a:
-   http://localhost:8000
+PUBLICACIÓN EN GITHUB PAGES
+1. Reemplaza los archivos del repositorio HAVYCO-Bingo por los de esta carpeta.
+2. Conserva la carpeta assets/ con logo-havyco.png.
+3. Haz Commit changes.
+4. GitHub Pages actualizará automáticamente:
+   https://havyco.github.io/HAVYCO-Bingo/
 
-PARA INSTALAR COMO APP EN CHROME:
-- Abre la página en Chrome.
-- Menú ⋮ > Guardar y compartir > Instalar página como aplicación
-  (el texto puede variar según tu versión de Chrome).
+FUNCIONES V3
+- PWA instalable.
+- Pantalla de carga HAVYCO.
+- Ruleta 1–75 sin repetir.
+- Voz en español.
+- Sonido al salir número.
+- Tómbola animada.
+- Ruleta de premios configurable.
+- Pantalla completa.
+- Historial persistente.
+- Generador de hasta 10.000 cartones por sesión.
+- Impresión / Guardar PDF desde Chrome.
+- Registro local de vendedores y ventas.
+- Resumen de ingresos y cartones vendidos.
+- Configuración de colores.
+- Datos guardados en localStorage.
+- Funcionamiento offline básico con Service Worker.
 
-FUNCIONES:
-- Ruleta 1-75 sin repetir.
-- Voz en español mediante las voces instaladas en Chrome/macOS.
-- Tablero B-I-N-G-O.
-- Reinicio.
-- Historial.
-- Generador de cartones.
-- Imprimir / Guardar PDF desde el diálogo de impresión de Chrome.
-- Colores editables.
-- Logo HAVYCO.
-
-PARA CAMBIAR EL LOGO:
-Reemplaza assets/logo-havyco.png por otro PNG con el mismo nombre.
-
-NOTA:
-La voz exacta disponible depende de las voces instaladas en el sistema y en Chrome.
-
-ACTUALIZACIÓN:
-- Ahora permite generar hasta 5000 cartones por sesión.
-
-ACTUALIZACIÓN v3:
-- Campos del generador vacíos al abrir la app.
-- Límite confirmado: hasta 5000 cartones.
-- Ya no genera cartones automáticamente al iniciar.
-- Cache actualizado para evitar que Chrome use la versión antigua de 500 cartones.
-- Validación de campos antes de generar.
+IMPORTANTE
+La versión V3 no incluye nube, usuarios con contraseña ni sincronización entre dispositivos.
+Esas funciones requieren un backend (por ejemplo Firebase/Supabase) y se pueden añadir después.

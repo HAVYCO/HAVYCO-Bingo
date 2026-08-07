@@ -4,137 +4,219 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#07123d">
-  <title>HAVYCO Bingo Profesional</title>
+  <title>HAVYCO Bingo Profesional V3</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand">
-        <img src="assets/logo-havyco.png" alt="Logo HAVYCO">
-        <div>
-          <h1>HAVYCO</h1>
-          <strong>BINGO PROFESIONAL</strong>
-          <span>Diversión • Sorteo • Beneficencia</span>
+<div id="splash" class="splash">
+  <img src="assets/logo-havyco.png" alt="HAVYCO">
+  <h1>HAVYCO</h1>
+  <p>Bingo Profesional V3</p>
+</div>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <img src="assets/logo-havyco.png" alt="Logo HAVYCO">
+      <div>
+        <h1>HAVYCO</h1>
+        <b>BINGO PROFESIONAL V3</b>
+        <span>Diversión • Sorteo • Beneficencia</span>
+      </div>
+    </div>
+
+    <nav>
+      <button class="tab active" data-view="ruleta">🎱 Ruleta</button>
+      <button class="tab" data-view="cartones">▦ Cartones</button>
+      <button class="tab" data-view="ventas">💰 Ventas</button>
+      <button class="tab" data-view="premios">🏆 Premios</button>
+      <button class="tab" data-view="historial">↶ Historial</button>
+      <button class="tab" data-view="config">⚙ Configuración</button>
+    </nav>
+
+    <button id="installBtn" class="install hidden">⬇ Instalar App</button>
+  </header>
+
+  <main>
+    <section id="ruleta" class="view active">
+      <div class="dashboard">
+        <aside class="side left">
+          <div class="panel stats-panel">
+            <h2>ESTADÍSTICAS</h2>
+            <div class="stats">
+              <div><small>HAN SALIDO</small><strong id="drawnCount">0</strong></div>
+              <div><small>FALTAN</small><strong id="remainCount">75</strong></div>
+              <div><small>TOTAL</small><strong>75</strong></div>
+            </div>
+          </div>
+
+          <div class="panel last-panel">
+            <h2>ÚLTIMO NÚMERO</h2>
+            <div class="last-wrap">
+              <div class="big-ball" id="lastLetter">—</div>
+              <div class="last-number" id="lastNumber">—</div>
+            </div>
+            <p id="spokenText">Listo para comenzar</p>
+          </div>
+
+          <div class="panel">
+            <h2>VOZ Y SONIDO</h2>
+            <label>Voz
+              <select id="voiceSelect"></select>
+            </label>
+            <label>Velocidad
+              <input id="rateRange" type="range" min="0.7" max="1.3" step="0.05" value="0.95">
+            </label>
+            <label class="check"><input id="voiceEnabled" type="checkbox" checked> Cantar números</label>
+            <label class="check"><input id="soundEnabled" type="checkbox" checked> Efecto al salir número</label>
+          </div>
+        </aside>
+
+        <section class="center">
+          <div class="marquee">BINGO</div>
+
+          <div class="tombola">
+            <div class="drum">
+              <div class="tball b1">7</div>
+              <div class="tball b2">24</div>
+              <div class="tball b3">39</div>
+              <div class="tball b4">56</div>
+              <div class="tball b5">71</div>
+            </div>
+            <div class="stand"></div>
+          </div>
+
+          <div class="prize-wheel" id="wheel">
+            <div class="pointer">▼</div>
+            <div class="wheel-core">HAVYCO</div>
+          </div>
+
+          <div class="main-actions">
+            <button id="drawBtn" class="primary">🎲 SACAR NÚMERO <small>ESPACIO</small></button>
+            <button id="resetBtn" class="danger">↻ REINICIAR</button>
+            <button id="fullscreenBtn" class="secondary">⛶ PANTALLA COMPLETA</button>
+          </div>
+        </section>
+
+        <section class="panel board-panel">
+          <h2>TABLERO DE NÚMEROS</h2>
+          <div id="board" class="board"></div>
+        </section>
+
+        <aside class="side right">
+          <div class="panel">
+            <h2>ÚLTIMOS NÚMEROS</h2>
+            <div id="recentList" class="recent"></div>
+          </div>
+
+          <div class="panel">
+            <h2>PREMIO ACTUAL</h2>
+            <div id="currentPrize" class="current-prize">Premio sorpresa</div>
+            <button id="spinPrizeBtn" class="quick orange">🎡 GIRAR PREMIO</button>
+          </div>
+
+          <div class="panel">
+            <h2>ACCESOS RÁPIDOS</h2>
+            <button class="quick green" data-view="cartones">＋ NUEVO CARTÓN</button>
+            <button class="quick purple" data-view="ventas">💰 REGISTRAR VENTA</button>
+            <button class="quick blue" data-view="historial">📋 VER HISTORIAL</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="cartones" class="view">
+      <div class="workspace">
+        <div class="panel form-panel">
+          <h2>GENERADOR DE CARTONES</h2>
+          <div class="form-grid">
+            <label>Cantidad <input id="cardQty" type="number" min="1" max="10000" placeholder="Ej.: 1002"></label>
+            <label>Título <input id="eventTitle" placeholder="Ej.: BINGO SOLIDARIO"></label>
+            <label>Beneficiario <input id="beneficiary" placeholder="Ej.: Tío Vicente Zapata"></label>
+            <label>Fecha <input id="eventDate" placeholder="Ej.: Sábado 1 de agosto de 2026"></label>
+            <label>Hora <input id="eventTime" placeholder="Ej.: 16:00"></label>
+            <label>Precio <input id="eventPrice" placeholder="Ej.: $2"></label>
+          </div>
+          <div class="main-actions">
+            <button id="generateCardsBtn" class="primary">GENERAR CARTONES</button>
+            <button id="printCardsBtn" class="danger">IMPRIMIR / GUARDAR PDF</button>
+            <button id="clearCardsBtn" class="secondary">LIMPIAR</button>
+          </div>
+          <p class="note">Consejo: para miles de cartones, genera por lotes para evitar sobrecargar el navegador.</p>
+        </div>
+        <div id="cardsPreview" class="cards-preview"></div>
+      </div>
+    </section>
+
+    <section id="ventas" class="view">
+      <div class="workspace split">
+        <div class="panel">
+          <h2>REGISTRAR VENTA</h2>
+          <div class="form-grid one">
+            <label>Vendedor <input id="sellerName" placeholder="Nombre del vendedor"></label>
+            <label>Desde cartón # <input id="saleFrom" type="number" min="1"></label>
+            <label>Hasta cartón # <input id="saleTo" type="number" min="1"></label>
+            <label>Valor por cartón <input id="salePrice" type="number" step="0.01" min="0"></label>
+          </div>
+          <button id="saveSaleBtn" class="primary wide">GUARDAR VENTA</button>
+        </div>
+
+        <div class="panel">
+          <h2>RESUMEN DE VENTAS</h2>
+          <div class="stats">
+            <div><small>CARTONES</small><strong id="soldCards">0</strong></div>
+            <div><small>INGRESOS</small><strong id="salesTotal">$0.00</strong></div>
+            <div><small>VENDEDORES</small><strong id="sellerCount">0</strong></div>
+          </div>
+          <div id="salesList" class="table-list"></div>
         </div>
       </div>
-      <nav class="tabs">
-        <button class="tab active" data-view="ruleta">🎱 Ruleta</button>
-        <button class="tab" data-view="cartones">▦ Generador</button>
-        <button class="tab" data-view="historial">↶ Historial</button>
-        <button class="tab" data-view="config">⚙ Configuración</button>
-      </nav>
-    </header>
+    </section>
 
-    <main>
-      <section id="ruleta" class="view active">
-        <div class="dashboard">
-          <aside class="left-panel">
-            <section class="panel">
-              <h2>ESTADÍSTICAS</h2>
-              <div class="stats">
-                <div><span>HAN SALIDO</span><b id="drawnCount">0</b></div>
-                <div><span>FALTAN</span><b id="remainCount">75</b></div>
-                <div><span>TOTAL</span><b>75</b></div>
-              </div>
-            </section>
-
-            <section class="panel current">
-              <h2>ÚLTIMO NÚMERO</h2>
-              <div class="ball" id="lastLetter">—</div>
-              <div class="big-number" id="lastNumber">—</div>
-              <p id="spokenText">Listo para comenzar</p>
-            </section>
-
-            <section class="panel sound-panel">
-              <h2>VOZ Y SONIDO</h2>
-              <label>Voz
-                <select id="voiceSelect"></select>
-              </label>
-              <label>Velocidad
-                <input id="rateRange" type="range" min="0.7" max="1.3" value="0.95" step="0.05">
-              </label>
-              <label class="switch-row"><input id="voiceEnabled" type="checkbox" checked> Cantar números</label>
-            </section>
-          </aside>
-
-          <section class="center-panel">
-            <div class="marquee">BINGO</div>
-            <div class="decor-row">
-              <div class="mini-ball">7</div>
-              <div class="wheel">★<span>PREMIOS</span></div>
-              <div class="mini-ball blue">5</div>
-            </div>
-            <div class="controls">
-              <button id="drawBtn" class="primary">🎲 SACAR NÚMERO <small>ESPACIO</small></button>
-              <button id="resetBtn" class="danger">↻ REINICIAR</button>
-            </div>
-          </section>
-
-          <section class="board-panel panel">
-            <h2>TABLERO DE NÚMEROS</h2>
-            <div class="board" id="board"></div>
-          </section>
-
-          <aside class="right-panel">
-            <section class="panel">
-              <h2>ÚLTIMOS NÚMEROS</h2>
-              <div id="recentList" class="recent-list"></div>
-            </section>
-            <section class="panel">
-              <h2>ACCESOS RÁPIDOS</h2>
-              <button class="quick green" data-view="cartones">＋ NUEVO CARTÓN</button>
-              <button class="quick purple" data-view="historial">📁 HISTORIAL</button>
-              <button class="quick orange" id="printBoardBtn">🖨 IMPRIMIR TABLERO</button>
-            </section>
-          </aside>
+    <section id="premios" class="view">
+      <div class="workspace split">
+        <div class="panel">
+          <h2>CONFIGURAR PREMIOS</h2>
+          <label>Nombre del premio <input id="prizeInput" placeholder="Ej.: Canasta sorpresa"></label>
+          <button id="addPrizeBtn" class="primary wide">AGREGAR PREMIO</button>
         </div>
-      </section>
-
-      <section id="cartones" class="view">
-        <div class="workspace">
-          <section class="panel form-panel">
-            <h2>GENERADOR DE CARTONES</h2>
-            <div class="form-grid">
-              <label>Cantidad <input id="cardQty" type="number" min="1" max="5000" value="" placeholder="Ej.: 1002"></label>
-              <label>Título <input id="eventTitle" value="" placeholder="Ej.: BINGO SOLIDARIO"></label>
-              <label>Beneficiario <input id="beneficiary" value="" placeholder="Ej.: Tío Vicente Zapata"></label>
-              <label>Fecha <input id="eventDate" value="" placeholder="Ej.: Sábado 1 de agosto de 2026"></label>
-              <label>Hora <input id="eventTime" value="" placeholder="Ej.: 16:00"></label>
-              <label>Precio <input id="eventPrice" value="" placeholder="Ej.: $2"></label>
-            </div>
-            <div class="controls">
-              <button id="generateCardsBtn" class="primary">GENERAR CARTONES</button>
-              <button id="printCardsBtn" class="danger">IMPRIMIR / GUARDAR PDF</button>
-            </div>
-          </section>
-          <section id="cardsPreview" class="cards-preview"></section>
+        <div class="panel">
+          <h2>LISTA DE PREMIOS</h2>
+          <div id="prizeList" class="table-list"></div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="historial" class="view">
-        <section class="panel history-panel">
+    <section id="historial" class="view">
+      <div class="workspace">
+        <div class="panel">
           <h2>HISTORIAL DEL SORTEO</h2>
           <div id="historyGrid" class="history-grid"></div>
-        </section>
-      </section>
+          <button id="clearHistoryBtn" class="danger">BORRAR HISTORIAL</button>
+        </div>
+      </div>
+    </section>
 
-      <section id="config" class="view">
-        <section class="panel config-panel">
+    <section id="config" class="view">
+      <div class="workspace">
+        <div class="panel">
           <h2>CONFIGURACIÓN VISUAL</h2>
           <div class="form-grid">
             <label>Color principal <input type="color" id="primaryColor" value="#0b4fd8"></label>
             <label>Color acento <input type="color" id="accentColor" value="#ff2d8d"></label>
             <label>Color marcado <input type="color" id="calledColor" value="#e52b1b"></label>
           </div>
-          <p>Los cambios se aplican inmediatamente. Para reemplazar el logo, sustituye <code>assets/logo-havyco.png</code>.</p>
-        </section>
-      </section>
-    </main>
+          <button id="saveSettingsBtn" class="primary">GUARDAR CONFIGURACIÓN</button>
+          <p class="note">Los ajustes, historial, premios y ventas se guardan localmente en este dispositivo.</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    <footer>HAVYCO • Calidad, Confianza y Diversión en Cada Sorteo</footer>
-  </div>
-  <script src="app.js"></script>
+  <footer>HAVYCO • Calidad, Confianza y Diversión en Cada Sorteo</footer>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
