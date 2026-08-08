@@ -5,7 +5,9 @@ const store={
   prizes:JSON.parse(localStorage.getItem('havyco_prizes')||'["Premio sorpresa"]'),
   settings:JSON.parse(localStorage.getItem('havyco_settings')||'{}'),
   installPrompt:null,
-  voices:[]
+  voices:[],
+  licenseCode:localStorage.getItem('havyco_license_code')||'',
+  license:null
 };
 let remaining=Array.from({length:75},(_,i)=>i+1).filter(n=>!store.drawn.includes(n));
 
@@ -17,7 +19,38 @@ function spanishNumber(n){
 }
 const lname={B:'be',I:'i',N:'ene',G:'ge',O:'o'};
 
-function showView(id){$$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===id))}
+
+function isPro(){return !!(store.license&&store.license.plan==='PRO')}
+function cardLimit(){return isPro()?Math.min(Number(store.license.max_cards)||10000,100000):100}
+function updatePlanUI(){
+  const pro=isPro(),badge=$('#planBadge');
+  badge.textContent=pro?'HAVYCO PRO':'PLAN GRATIS'; badge.classList.toggle('pro',pro); badge.classList.toggle('free',!pro);
+  $('#accountPlan').textContent=pro?'PRO':'GRATIS';
+  $('#accountLimit').textContent=`Hasta ${cardLimit().toLocaleString('es-EC')} cartones`;
+  $('#accountCustomer').textContent=pro?`Licencia: ${store.license.customer||'Cliente PRO'}`:'Sin licencia PRO activa';
+  $('#accountExpiry').textContent=pro?(store.license.exp?`Vence: ${store.license.exp}`:'Licencia sin vencimiento'):'';
+  $('#licenseStatus').textContent=pro?`Licencia activa · ${store.license.license_id||''}`:'';
+}
+async function restoreLicense(){
+  if(!store.licenseCode){updatePlanUI();return}
+  try{store.license=await window.HavycoLicense.verify(store.licenseCode)}catch(e){store.license=null;localStorage.removeItem('havyco_license_code')}
+  updatePlanUI();
+}
+async function activateLicense(){
+  const code=$('#licenseCode').value.trim();if(!code){alert('Pega tu código de licencia.');return}
+  try{const data=await window.HavycoLicense.verify(code);store.license=data;store.licenseCode=code;localStorage.setItem('havyco_license_code',code);$('#licenseCode').value='';updatePlanUI();alert(`HAVYCO PRO activado para ${data.customer}.`)}catch(e){alert(e.message)}
+}
+function removeLicense(){
+  if(!confirm('¿Desactivar HAVYCO PRO en este dispositivo?'))return;
+  store.license=null;store.licenseCode='';localStorage.removeItem('havyco_license_code');updatePlanUI();
+}
+function showUpgrade(feature='Esta función'){
+  showView('cuenta');
+  setTimeout(()=>alert(`${feature} requiere HAVYCO PRO.`),50);
+}
+function canOpenView(id){return !(['ventas','premios'].includes(id))||isPro()}
+
+function showView(id){if(!canOpenView(id)){showUpgrade(id==='ventas'?'El control de ventas':'La gestión de premios');return}$$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===id))}
 $$('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
 
 function buildBoard(){
@@ -50,14 +83,14 @@ function resetGame(){if(!confirm('¿Reiniciar el sorteo completo?'))return;store
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function randomCard(){const ranges=[[1,15],[16,30],[31,45],[46,60],[61,75]],cols=ranges.map(([a,b])=>shuffle(Array.from({length:b-a+1},(_,i)=>a+i)).slice(0,5)),vals=[];for(let r=0;r<5;r++)for(let c=0;c<5;c++)vals.push(r===2&&c===2?'LIBRE':cols[c][r]);return vals}
 function generateCards(){
-  const qty=Number($('#cardQty').value);if(!Number.isInteger(qty)||qty<1||qty>10000){alert('Cantidad válida: 1 a 10000.');return}
+  const qty=Number($('#cardQty').value);const limit=cardLimit();if(!Number.isInteger(qty)||qty<1||qty>limit){alert(`Tu plan permite generar entre 1 y ${limit.toLocaleString('es-EC')} cartones por sesión.`);if(!isPro())showUpgrade('Generar más de 100 cartones');return}
   const fields=['eventTitle','beneficiary','eventDate','eventTime','eventPrice'];if(fields.some(id=>!$('#'+id).value.trim())){alert('Completa todos los datos del bingo.');return}
   const p=$('#cardsPreview');p.innerHTML='';
   for(let k=1;k<=qty;k++){const vals=randomCard(),a=document.createElement('article');a.className='bingo-card';a.innerHTML=`<header><img src="assets/logo-havyco.png" style="width:45px;height:45px;border-radius:12px"><div><b>${$('#eventTitle').value}</b><br><small>${$('#beneficiary').value}</small></div><b>#${String(k).padStart(4,'0')}</b></header><div class="letters">${['B','I','N','G','O'].map(x=>`<div>${x}</div>`).join('')}</div><div class="nums">${vals.map(v=>`<div class="${v==='LIBRE'?'free':''}">${v}</div>`).join('')}</div><footer style="display:flex;justify-content:space-between;color:#07123d;padding-top:7px"><small>${$('#eventDate').value} · ${$('#eventTime').value}</small><b>${$('#eventPrice').value}</b></footer>`;p.appendChild(a)}
   alert(`Se generaron ${qty} cartones.`);
 }
 
-function saveSale(){
+function saveSale(){if(!isPro()){showUpgrade('El control de ventas');return}
   const seller=$('#sellerName').value.trim(),from=Number($('#saleFrom').value),to=Number($('#saleTo').value),price=Number($('#salePrice').value);
   if(!seller||!from||!to||to<from||price<0){alert('Revisa los datos de la venta.');return}
   store.sales.push({seller,from,to,price,date:new Date().toISOString()});localStorage.setItem('havyco_sales',JSON.stringify(store.sales));renderSales()
@@ -67,9 +100,9 @@ function renderSales(){
   $('#soldCards').textContent=sold;$('#salesTotal').textContent='$'+total.toFixed(2);$('#sellerCount').textContent=sellers;
   $('#salesList').innerHTML=store.sales.slice().reverse().map(x=>`<div class="row"><b>${x.seller}</b><span>#${x.from}-#${x.to}</span><span>$${((x.to-x.from+1)*x.price).toFixed(2)}</span></div>`).join('')
 }
-function addPrize(){const v=$('#prizeInput').value.trim();if(!v)return;store.prizes.push(v);$('#prizeInput').value='';localStorage.setItem('havyco_prizes',JSON.stringify(store.prizes));renderPrizes()}
+function addPrize(){if(!isPro()){showUpgrade('La gestión de premios');return}const v=$('#prizeInput').value.trim();if(!v)return;store.prizes.push(v);$('#prizeInput').value='';localStorage.setItem('havyco_prizes',JSON.stringify(store.prizes));renderPrizes()}
 function renderPrizes(){$('#prizeList').innerHTML=store.prizes.map((p,i)=>`<div class="row"><b>${p}</b><span></span><button data-del-prize="${i}">Eliminar</button></div>`).join('');$$('[data-del-prize]').forEach(b=>b.onclick=()=>{store.prizes.splice(Number(b.dataset.delPrize),1);localStorage.setItem('havyco_prizes',JSON.stringify(store.prizes));renderPrizes()})}
-function spinPrize(){
+function spinPrize(){if(!isPro()){showUpgrade('La ruleta de premios');return}
   if(!store.prizes.length){alert('Agrega al menos un premio.');return}
   $('#wheel').classList.remove('spinning');void $('#wheel').offsetWidth;$('#wheel').classList.add('spinning');
   setTimeout(()=>{$('#currentPrize').textContent=store.prizes[Math.floor(Math.random()*store.prizes.length)]},1600)
@@ -143,10 +176,11 @@ if(isIOS() && !isStandalone()){
   $('#installCard')?.classList.remove('hidden');
 }
 
+$('#activateLicenseBtn').onclick=activateLicense;$('#removeLicenseBtn').onclick=removeLicense;$('#buyProBtn').onclick=()=>{const url=window.HAVYCO_CONFIG?.purchaseUrl;if(url)window.open(url,'_blank');else alert(window.HAVYCO_CONFIG?.supportText||'Contacta a HAVYCO para comprar PRO.');};
 $('#drawBtn').onclick=drawNumber;$('#resetBtn').onclick=resetGame;$('#generateCardsBtn').onclick=generateCards;$('#printCardsBtn').onclick=()=>{showView('cartones');setTimeout(()=>window.print(),100)};$('#clearCardsBtn').onclick=()=>$('#cardsPreview').innerHTML='';
 $('#saveSaleBtn').onclick=saveSale;$('#addPrizeBtn').onclick=addPrize;$('#spinPrizeBtn').onclick=spinPrize;$('#clearHistoryBtn').onclick=()=>{if(confirm('¿Borrar historial?')){store.drawn=[];remaining=Array.from({length:75},(_,i)=>i+1);localStorage.setItem('havyco_drawn','[]');render()}};
 $('#saveSettingsBtn').onclick=saveSettings;$('#fullscreenBtn').onclick=()=>document.documentElement.requestFullscreen?.();
 window.addEventListener('keydown',e=>{if(e.code==='Space'&&$('#ruleta').classList.contains('active')){e.preventDefault();drawNumber()}});
-speechSynthesis.onvoiceschanged=loadVoices;loadVoices();applySettings();buildBoard();render();
+speechSynthesis.onvoiceschanged=loadVoices;loadVoices();applySettings();buildBoard();render();restoreLicense();
 setTimeout(()=>$('#splash').classList.add('hide'),900);
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});

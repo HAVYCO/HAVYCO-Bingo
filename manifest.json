@@ -1,12 +1,12 @@
 {
-  "name": "HAVYCO Bingo Profesional V3",
+  "name": "HAVYCO Bingo Profesional V4",
   "short_name": "HAVYCO Bingo",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#030718",
   "theme_color": "#07123d",
-  "description": "Ruleta, generador de cartones, premios, ventas e historial para eventos de bingo.",
+  "description": "HAVYCO Bingo V4 con plan Gratis/PRO y licencias offline verificadas criptográficamente.",
   "icons": [
     {
       "src": "assets/logo-havyco.png",

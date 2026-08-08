@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#07123d">
-  <title>HAVYCO Bingo Profesional V3</title>
+  <title>HAVYCO Bingo Profesional V4</title>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="assets/logo-havyco.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,7 +16,7 @@
 <div id="splash" class="splash">
   <img src="assets/logo-havyco.png" alt="HAVYCO">
   <h1>HAVYCO</h1>
-  <p>Bingo Profesional V3</p>
+  <p>Bingo Profesional V4</p>
 </div>
 
 <div class="app">
@@ -25,7 +25,7 @@
       <img src="assets/logo-havyco.png" alt="Logo HAVYCO">
       <div>
         <h1>HAVYCO</h1>
-        <b>BINGO PROFESIONAL V3</b>
+        <b>BINGO PROFESIONAL V4</b>
         <span>Diversión • Sorteo • Beneficencia</span>
       </div>
     </div>
@@ -33,12 +33,14 @@
     <nav>
       <button class="tab active" data-view="ruleta">🎱 Ruleta</button>
       <button class="tab" data-view="cartones">▦ Cartones</button>
-      <button class="tab" data-view="ventas">💰 Ventas</button>
-      <button class="tab" data-view="premios">🏆 Premios</button>
+      <button class="tab pro-tab" data-view="ventas">💰 Ventas <small>PRO</small></button>
+      <button class="tab pro-tab" data-view="premios">🏆 Premios <small>PRO</small></button>
       <button class="tab" data-view="historial">↶ Historial</button>
+      <button class="tab" data-view="cuenta">👤 Cuenta / PRO</button>
       <button class="tab" data-view="config">⚙ Configuración</button>
     </nav>
 
+    <div id="planBadge" class="plan-badge free">PLAN GRATIS</div>
     <button id="installBtn" class="install hidden">⬇ INSTALAR HAVYCO APP</button>
   </header>
 
@@ -202,6 +204,37 @@
       </div>
     </section>
 
+
+    <section id="cuenta" class="view">
+      <div class="workspace split account-grid">
+        <div class="panel">
+          <h2>MI PLAN HAVYCO</h2>
+          <div class="plan-card">
+            <span id="accountPlan">GRATIS</span>
+            <strong id="accountLimit">Hasta 100 cartones</strong>
+            <p id="accountCustomer">Sin licencia PRO activa</p>
+            <p id="accountExpiry"></p>
+          </div>
+          <div class="feature-list">
+            <div>✓ Ruleta 1–75</div><div>✓ Voz e historial</div><div>✓ Hasta 100 cartones GRATIS</div>
+            <div class="pro-feature">★ Hasta 10.000+ cartones con PRO</div>
+            <div class="pro-feature">★ Ventas y vendedores con PRO</div>
+            <div class="pro-feature">★ Premios configurables con PRO</div>
+          </div>
+          <button id="buyProBtn" class="primary wide">💎 COMPRAR HAVYCO PRO</button>
+        </div>
+        <div class="panel">
+          <h2>ACTIVAR LICENCIA PRO</h2>
+          <label>Código de licencia
+            <textarea id="licenseCode" rows="7" placeholder="Pega aquí el código que empieza por HV4..."></textarea>
+          </label>
+          <button id="activateLicenseBtn" class="primary wide">ACTIVAR LICENCIA</button>
+          <button id="removeLicenseBtn" class="danger wide">DESACTIVAR LICENCIA EN ESTE EQUIPO</button>
+          <p id="licenseStatus" class="note"></p>
+        </div>
+      </div>
+    </section>
+
     <section id="config" class="view">
       <div class="workspace">
         <div class="panel">
@@ -249,6 +282,8 @@
   </div>
 </div>
 
+<script src="config.js"></script>
+<script src="license.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
