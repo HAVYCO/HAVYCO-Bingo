@@ -31,3 +31,11 @@ Este sistema protege la EMISIÓN de licencias mediante firma criptográfica y fu
 
 COMPRA PRO
 Edita config.js y coloca tu enlace de pago/WhatsApp en purchaseUrl.
+
+ACTUALIZACIÓN V4.1 MÓVIL
+- Encabezado compacto en iPhone y Android.
+- Menú en cuadrícula de 3 columnas.
+- Botón Instalar HAVYCO reducido en móvil.
+- El encabezado deja de ser fijo para no tapar la ruleta.
+- Tablero, ruleta, botones y paneles se adaptan a pantallas pequeñas.
+- Diseño optimizado para 390px y 700px.
