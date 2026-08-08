@@ -194,7 +194,16 @@
           <div id="prizeList" class="table-list"></div>
         </div>
       </div>
-    </section>
+    
+<div class="prize-options">
+  <label class="check"><input id="repeatPrizes" type="checkbox"> Permitir repetir premios</label>
+  <button id="resetPrizePoolBtn" class="secondary">REINICIAR PREMIOS</button>
+</div>
+<div class="panel prize-history-panel">
+  <h2>HISTORIAL DE PREMIOS</h2>
+  <div id="prizeHistoryList" class="table-list"></div>
+</div>
+</section>
 
     <section id="historial" class="view">
       <div class="workspace">
@@ -302,5 +311,16 @@
 <script src="config.js"></script>
 <script src="license.js"></script>
 <script src="app.js"></script>
+
+<div id="prizeWinnerModal" class="prize-modal hidden" role="dialog" aria-modal="true">
+  <div class="prize-modal-card">
+    <div class="prize-confetti">🎉 🎊 ✨</div>
+    <h2>¡PREMIO GANADOR!</h2>
+    <div id="prizeWinnerText" class="prize-winner-text">—</div>
+    <div id="prizeWinnerTime" class="prize-winner-time"></div>
+    <button id="closePrizeWinner" class="primary wide">CONTINUAR SORTEO</button>
+  </div>
+</div>
+
 </body>
 </html>

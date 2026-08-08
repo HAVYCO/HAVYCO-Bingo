@@ -256,3 +256,18 @@ footer{text-align:center;padding:12px;border-top:1px solid #20306d;color:#c7eaff
   .offline-info{margin:10px 12px 18px;display:block;text-align:center}
   .offline-info strong{display:block;margin-bottom:5px}
 }
+
+.prize-options{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.prize-options .check{justify-content:flex-start!important}
+.prize-modal{position:fixed;inset:0;z-index:300;background:#020617e8;display:flex;align-items:center;justify-content:center;padding:20px}
+.prize-modal.hidden{display:none}
+.prize-modal-card{width:min(620px,100%);text-align:center;padding:28px;border-radius:24px;background:radial-gradient(circle at top,#22125f,#090d2d 65%);border:2px solid #ffcc25;box-shadow:0 0 50px #ffca2d66}
+.prize-confetti{font-size:38px;margin-bottom:6px}
+.prize-modal-card h2{font-size:30px;color:#ffd32a;margin:6px 0 16px}
+.prize-winner-text{font-size:clamp(30px,7vw,60px);font-weight:900;color:white;padding:22px 10px;min-height:100px;display:grid;place-items:center}
+.prize-winner-time{color:#9fe8ff;margin:8px 0 18px;font-weight:700}
+@media(max-width:700px){
+  .prize-modal-card{padding:20px}
+  .prize-modal-card h2{font-size:24px}
+  .prize-options{flex-direction:column;align-items:stretch}
+}

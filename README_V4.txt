@@ -44,3 +44,13 @@ ACTUALIZACIÓN V4.4 - CORRECCIÓN DE LICENCIAS
 - El validador elimina espacios y saltos de línea antes de verificar la licencia.
 - Mejora el mensaje cuando se copia una licencia incompleta.
 - Caché PWA actualizado para forzar la nueva versión.
+
+ACTUALIZACIÓN V4.5 - RULETA DE PREMIOS
+- GIRAR PREMIO ahora funciona.
+- Animación rápida antes de seleccionar el premio ganador.
+- Modal grande: ¡PREMIO GANADOR!
+- Por defecto los premios no se repiten.
+- Opción para permitir repetir premios.
+- Historial local de premios con fecha y hora.
+- Botón Reiniciar Premios.
+- Funciona sin Internet después de cargar la PWA.

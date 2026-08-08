@@ -1,4 +1,4 @@
-const CACHE='havyco-bingo-v4-4-license-fix';
+const CACHE='havyco-bingo-v4-5-premios';
 const APP_SHELL=[
   './','./index.html','./styles.css','./app.js','./license.js','./config.js',
   './manifest.json','./assets/logo-havyco.png'

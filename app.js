@@ -209,3 +209,96 @@ function updateOnlineStatus(){
 window.addEventListener('online',updateOnlineStatus);
 window.addEventListener('offline',updateOnlineStatus);
 updateOnlineStatus();
+
+
+// ===== HAVYCO V4.5 - RULETA DE PREMIOS =====
+const HAVYCO_PRIZE_HISTORY_KEY='havyco_prize_history_v45';
+const HAVYCO_PRIZE_USED_KEY='havyco_prize_used_v45';
+
+function getPrizeHistoryV45(){
+  try{return JSON.parse(localStorage.getItem(HAVYCO_PRIZE_HISTORY_KEY)||'[]')}catch(e){return[]}
+}
+function setPrizeHistoryV45(v){localStorage.setItem(HAVYCO_PRIZE_HISTORY_KEY,JSON.stringify(v))}
+function getUsedPrizesV45(){
+  try{return JSON.parse(localStorage.getItem(HAVYCO_PRIZE_USED_KEY)||'[]')}catch(e){return[]}
+}
+function setUsedPrizesV45(v){localStorage.setItem(HAVYCO_PRIZE_USED_KEY,JSON.stringify(v))}
+function currentPrizeListV45(){
+  if(typeof store!=='undefined' && Array.isArray(store.prizes)) return store.prizes.filter(Boolean);
+  try{return JSON.parse(localStorage.getItem('havyco_prizes')||'[]').filter(Boolean)}catch(e){return[]}
+}
+function renderPrizeHistoryV45(){
+  const box=document.getElementById('prizeHistoryList');
+  if(!box)return;
+  const h=getPrizeHistoryV45();
+  box.innerHTML=h.length?h.slice().reverse().map(x=>
+    `<div class="row"><b>${x.prize}</b><span>${x.date}</span><span>${x.time}</span></div>`
+  ).join(''):'<div class="note">Todavía no se han sorteado premios.</div>';
+}
+function showPrizeWinnerV45(prize){
+  const modal=document.getElementById('prizeWinnerModal');
+  const txt=document.getElementById('prizeWinnerText');
+  const time=document.getElementById('prizeWinnerTime');
+  if(!modal||!txt)return;
+  txt.textContent=prize;
+  const now=new Date();
+  if(time) time.textContent=`${now.toLocaleDateString()} • ${now.toLocaleTimeString()}`;
+  modal.classList.remove('hidden');
+}
+function spinPrizeV45(){
+  const prizes=currentPrizeListV45();
+  if(!prizes.length){
+    alert('Primero registra al menos un premio en la sección Premios.');
+    return;
+  }
+  const repeat=document.getElementById('repeatPrizes')?.checked===true;
+  const used=getUsedPrizesV45();
+  const available=repeat?prizes:prizes.filter(p=>!used.includes(p));
+  if(!available.length){
+    alert('🏆 Todos los premios han sido sorteados. Pulsa REINICIAR PREMIOS para comenzar de nuevo.');
+    return;
+  }
+
+  const display=document.getElementById('currentPrize') || document.getElementById('prizeWinnerText');
+  const wheel=document.getElementById('wheel');
+  if(wheel){wheel.classList.remove('spinning');void wheel.offsetWidth;wheel.classList.add('spinning')}
+
+  let ticks=0;
+  const totalTicks=28;
+  const timer=setInterval(()=>{
+    const temp=available[Math.floor(Math.random()*available.length)];
+    if(display) display.textContent=temp;
+    ticks++;
+    if(ticks>=totalTicks){
+      clearInterval(timer);
+      const winner=available[Math.floor(Math.random()*available.length)];
+      if(display) display.textContent=winner;
+      if(!repeat){used.push(winner);setUsedPrizesV45(used)}
+      const now=new Date();
+      const hist=getPrizeHistoryV45();
+      hist.push({prize:winner,iso:now.toISOString(),date:now.toLocaleDateString(),time:now.toLocaleTimeString()});
+      setPrizeHistoryV45(hist);
+      renderPrizeHistoryV45();
+      showPrizeWinnerV45(winner);
+    }
+  },110);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const spinBtn=document.getElementById('spinPrizeBtn');
+  if(spinBtn){
+    const clone=spinBtn.cloneNode(true);
+    spinBtn.parentNode.replaceChild(clone,spinBtn);
+    clone.addEventListener('click',spinPrizeV45);
+  }
+  document.getElementById('closePrizeWinner')?.addEventListener('click',()=>{
+    document.getElementById('prizeWinnerModal')?.classList.add('hidden');
+  });
+  document.getElementById('resetPrizePoolBtn')?.addEventListener('click',()=>{
+    if(confirm('¿Deseas volver a incluir todos los premios en el sorteo?')){
+      setUsedPrizesV45([]);
+      alert('Premios reiniciados correctamente.');
+    }
+  });
+  renderPrizeHistoryV45();
+});
