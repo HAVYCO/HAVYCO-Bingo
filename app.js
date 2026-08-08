@@ -183,9 +183,29 @@ $('#saveSettingsBtn').onclick=saveSettings;$('#fullscreenBtn').onclick=()=>docum
 window.addEventListener('keydown',e=>{if(e.code==='Space'&&$('#ruleta').classList.contains('active')){e.preventDefault();drawNumber()}});
 speechSynthesis.onvoiceschanged=loadVoices;loadVoices();applySettings();buildBoard();render();restoreLicense();
 setTimeout(()=>$('#splash').classList.add('hide'),900);
-if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./service-worker.js').then(reg=>reg.update()).catch(()=>{});
+  });
+}
 
 const HAVYCO_WHATSAPP_URL = "https://wa.me/593984423035?text=Hola%2C%20deseo%20adquirir%20HAVYCO%20Bingo%20PRO.%20Por%20favor%2C%20env%C3%ADeme%20los%20datos%20para%20realizar%20el%20dep%C3%B3sito%20y%20activar%20mi%20licencia.";
-function abrirWhatsAppPro(){ window.open(HAVYCO_WHATSAPP_URL, "_blank", "noopener"); }
+function abrirWhatsAppPro(){
+  if(!navigator.onLine){
+    alert('WhatsApp requiere conexión a Internet. La app HAVYCO puede seguir usándose sin conexión.');
+    return;
+  }
+  window.open(HAVYCO_WHATSAPP_URL, "_blank", "noopener");
+}
 document.getElementById("buyProWhatsApp")?.addEventListener("click", abrirWhatsAppPro);
 document.getElementById("buyProWhatsAppTop")?.addEventListener("click", (e)=>{ e.preventDefault(); abrirWhatsAppPro(); });
+
+
+function updateOnlineStatus(){
+  const offline=!navigator.onLine;
+  document.getElementById('offlineBadge')?.classList.toggle('hidden',!offline);
+  document.documentElement.dataset.offline=offline?'1':'0';
+}
+window.addEventListener('online',updateOnlineStatus);
+window.addEventListener('offline',updateOnlineStatus);
+updateOnlineStatus();

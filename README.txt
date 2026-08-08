@@ -38,3 +38,14 @@ ACTUALIZACIÓN V4.2 - COMPRA PRO POR WHATSAPP
 - Redirige al número +593 98 442 3035.
 - Mensaje automático solicitando datos para depósito y activación de licencia.
 - Botón compacto flotante en móvil.
+
+
+ACTUALIZACIÓN V4.3 OFFLINE
+- App shell completo precargado por Service Worker.
+- Funciona sin Internet después de abrirla al menos una vez en línea.
+- Ruleta, generador de cartones, historial, configuración y licencia PRO trabajan localmente.
+- Ventas y premios guardados en localStorage continúan disponibles offline.
+- Indicador visible “MODO SIN CONEXIÓN”.
+- El botón de WhatsApp avisa cuando no hay Internet.
+- WhatsApp y actualización de nuevas versiones sí requieren conexión.
+- La voz depende de las voces instaladas localmente en el dispositivo/navegador.
