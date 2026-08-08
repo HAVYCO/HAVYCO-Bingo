@@ -11,11 +11,12 @@
   async function importKey(){return crypto.subtle.importKey('jwk',PUBLIC_JWK,{name:'ECDSA',namedCurve:'P-256'},false,['verify'])}
   async function verify(code){
     try{
-      const parts=String(code||'').trim().split('.');
+      const clean=String(code||'').replace(/\s+/g,'').trim();
+      const parts=clean.split('.');
       if(parts.length!==3||parts[0]!=='HV4')throw new Error('Formato de licencia inválido');
       const payloadBytes=b64uToBytes(parts[1]);
       const signature=b64uToBytes(parts[2]);
-      if(signature.length!==64)throw new Error('Firma inválida');
+      if(signature.length!==64)throw new Error('Firma inválida. Copia la licencia completa, sin omitir caracteres.');
       const key=await importKey();
       const ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},key,signature,payloadBytes);
       if(!ok)throw new Error('La licencia no es auténtica');

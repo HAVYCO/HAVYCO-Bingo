@@ -39,3 +39,8 @@ ACTUALIZACIÓN V4.1 MÓVIL
 - El encabezado deja de ser fijo para no tapar la ruleta.
 - Tablero, ruleta, botones y paneles se adaptan a pantallas pequeñas.
 - Diseño optimizado para 390px y 700px.
+
+ACTUALIZACIÓN V4.4 - CORRECCIÓN DE LICENCIAS
+- El validador elimina espacios y saltos de línea antes de verificar la licencia.
+- Mejora el mensaje cuando se copia una licencia incompleta.
+- Caché PWA actualizado para forzar la nueva versión.
