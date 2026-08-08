@@ -184,3 +184,8 @@ window.addEventListener('keydown',e=>{if(e.code==='Space'&&$('#ruleta').classLis
 speechSynthesis.onvoiceschanged=loadVoices;loadVoices();applySettings();buildBoard();render();restoreLicense();
 setTimeout(()=>$('#splash').classList.add('hide'),900);
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+
+const HAVYCO_WHATSAPP_URL = "https://wa.me/593984423035?text=Hola%2C%20deseo%20adquirir%20HAVYCO%20Bingo%20PRO.%20Por%20favor%2C%20env%C3%ADeme%20los%20datos%20para%20realizar%20el%20dep%C3%B3sito%20y%20activar%20mi%20licencia.";
+function abrirWhatsAppPro(){ window.open(HAVYCO_WHATSAPP_URL, "_blank", "noopener"); }
+document.getElementById("buyProWhatsApp")?.addEventListener("click", abrirWhatsAppPro);
+document.getElementById("buyProWhatsAppTop")?.addEventListener("click", (e)=>{ e.preventDefault(); abrirWhatsAppPro(); });

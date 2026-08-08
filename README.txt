@@ -31,3 +31,10 @@ Este sistema protege la EMISIÓN de licencias mediante firma criptográfica y fu
 
 COMPRA PRO
 Edita config.js y coloca tu enlace de pago/WhatsApp en purchaseUrl.
+
+
+ACTUALIZACIÓN V4.2 - COMPRA PRO POR WHATSAPP
+- Botón COMPRAR PRO POR WHATSAPP.
+- Redirige al número +593 98 442 3035.
+- Mensaje automático solicitando datos para depósito y activación de licencia.
+- Botón compacto flotante en móvil.
